@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const passport = require("passport");
 
 require("dotenv").config();
 
@@ -9,8 +8,6 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-//passport config
-require("./config/passport")(passport);
 // application wide use
 app.use(express.json());
 app.use(
@@ -19,15 +16,13 @@ app.use(
 	})
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 // database connection
 mongoose.connect(
 	`mongodb+srv://${process.env.HOST}:${process.env.PASSWORD}@zeus.uem0p.mongodb.net/${process.env.DB}?retryWrites=true&w=majority`,
 	{
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		useCreateIndex: true,
 	}
 );
 const db = mongoose.connection;
@@ -41,24 +36,7 @@ db.once("open", function () {
 app.use("/auth", require("./routes/auth"));
 
 app.get("/", (req, res) => {
-	res.json({message: "hello"});
-});
-
-app.get("/api/hello", (req, res) => {
-	res.json({message: "hello from server"});
-});
-
-app.post("/api/hello", (req, res) => {
-	const {name, email, companyName} = req.body;
-	// res.json({
-	// 	message: "This is what you sent",
-	// 	name: name,
-	// 	email: email,
-	// 	companyName: companyName,
-	// });
-	res.json({
-		status: "Message Received!",
-	});
+	res.json({message: "Hello from server"});
 });
 
 //run listen port

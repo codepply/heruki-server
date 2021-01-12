@@ -1,12 +1,12 @@
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-
-module.exports = {
-	preprocessPass: function (password) {
-		bcrypt.genSalt(saltRounds, (err, salt) => {
-			bcrypt.hash(password, salt, (err, hash) => {
-				console.log(hash);
-			});
-		});
-	},
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+exports.createJWT = (email, userId, duration) => {
+	const payload = {
+		email,
+		userId,
+		duration,
+	};
+	return jwt.sign(payload, process.env.TOKEN_SECRET, {
+		expiresIn: duration,
+	});
 };
