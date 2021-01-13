@@ -45,12 +45,27 @@ router.post("/login", async (req, res, next) => {
 				return res.status(200).json({
 					success: true,
 					token: accessToken,
-					message: user,
 				});
 			}
 		});
 	} catch (error) {
 		res.status(500).json({errors: error});
+	}
+});
+
+router.get("/user", async (req, res) => {
+	try {
+		const token = req.headers.authorization;
+		//get user _id
+		const {userId} = jwt.verify(token, process.env.TOKEN_SECRET);
+
+		//request to database
+		const {email, name} = await UserModel.findOne({_id: userId}).exec();
+
+		//return user info
+		res.json({name: name, email: email});
+	} catch (error) {
+		console.error(error);
 	}
 });
 
