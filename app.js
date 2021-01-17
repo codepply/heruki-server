@@ -35,6 +35,8 @@ db.once("open", function () {
 
 app.use("/auth", require("./routes/auth"));
 
+app.use("/api", require("./routes/message"));
+
 app.get("/", (req, res) => {
 	res.json({message: "Hello from server"});
 });
@@ -43,4 +45,3 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
 	console.log(`Server is listening on port ${PORT}`);
 });
-
