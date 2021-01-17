@@ -6,7 +6,8 @@
   "scripts": {
     "server":"nodemon app.js",
     "client":"cd ../hera-app && npm start",
-    "dev": "concurrently \" npm run server\" \"npm run client\""
+    "dev": "concurrently \" npm run server\" \"npm run client\"",
+    "start":"node app"
   },
   "keywords": [],
   "author": "",
